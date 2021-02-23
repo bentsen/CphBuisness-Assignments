@@ -1,0 +1,200 @@
+
+int size = 40;
+int[][] grid = new int[25][25];
+
+Player player;
+Enemy enemy;
+Food food;
+
+void setup()
+{
+    size(1001, 1001);
+    player = new Player(3, 4);
+    enemy = new Enemy(20, 19, player);
+    food = new Food(10,6,player);
+}
+
+void draw()
+{
+    clearBoard();
+    updateEntities();
+    drawBoard();   
+    isGameOver();
+    resolveCollisions();
+    keyPressed();
+    keyReleased();
+    UI();
+}
+
+void clearBoard()
+{
+    for (int x = 0; x < grid.length; x++)
+    {
+        for (int y = 0; y < grid[0].length; y++)
+        {
+            grid[x][y] = 0;
+        }
+    }
+}
+
+void drawBoard()
+{
+    for (int x = 0; x < grid.length; x++)
+    {
+        for (int y = 0; y < grid[0].length; y++)
+        {
+            fill(getColorFromType(grid[x][y]));
+            
+            rect(x * size, y * size, size, size);
+        }
+    }
+}
+
+void updateEntities()
+{
+   try
+   {
+    grid[food.x][food.y] = food.type;
+    grid[enemy.x][enemy.y] = enemy.type;
+    grid[player.x][player.y] = player.type; 
+    enemy.MoveTowardsPlayer();
+   }
+  catch(ArrayIndexOutOfBoundsException e)
+   {
+      
+   }
+}
+
+void resolveCollisions()
+{
+if (player.x == enemy.x && player.y == enemy.y)
+  {
+    player.takeDamage();
+  }
+  
+if (player.x == food.x && player.y == food.y)
+  {
+    player.increaseScore();
+    food.moveAwayFromPlayer();
+    food = new Food(int(random(0,25)),int(random(0,25)),player);
+  }  
+}
+
+void UI()
+{
+  //HEALTH
+  fill(150,230);
+  rect(300,2,130,50);
+  textSize(20);
+  fill(255,0,0);
+  text("HP:",310,30);
+  if (player.health > 0)
+  {
+  text(player.health, 350, 30);
+  }
+  else if(player.health <= 0)
+  {
+    text(0, 200, 30);
+  }
+  
+  //SCORE
+  fill(150,230);
+  rect(570,2,130,50);
+  textSize(20);
+  fill(255,0,0);
+  text("Score:",580,30);
+  text(player.score, 650, 31);
+  
+  //Game Name 
+  textSize(30);
+  text("CATCH",450,30);
+  
+}
+
+
+void isGameOver()
+{
+  if (player.health < 0)
+  {
+    fill(255,0,0);
+    textSize(50);
+    text("GAME OVER", 350,500);
+    if (player.health < 0 && keyCode == ENTER)
+    {
+    setup();
+    }
+  }
+}
+
+color getColorFromType(int type) 
+{
+    color c = color(255);
+    
+    switch(type)
+    {
+        case 0: 
+            c = color(127);
+            break;
+        case 1: 
+            c = color(255,0,0);
+            break;
+        case 2: 
+            c = color(0, 255, 0);
+            break;
+        case 3: 
+            c = color(0,0,255);
+            break;
+        case 4: 
+            c = color (0,255,255);
+            break;
+            
+    }    
+    
+    return c; 
+}
+
+void printIntArray(int[][] arr) 
+{
+    System.out.println("");
+    System.out.println("");
+    System.out.println("");
+    for (int x = 0; x < arr.length; x++)
+    {
+        for (int y = 0; y < arr[0].length; y++) 
+        {
+
+            System.out.print(arr[x][y] + ", ");
+            
+        }
+        println();
+    }
+}
+
+void keyPressed()
+{
+  
+  
+    if(keyCode == 'w'|| keyCode == 'W' || keyCode == UP)
+    {
+      player.y--;   
+    }
+    if(keyCode == 'a' || keyCode == 'A' || keyCode == LEFT)
+    {
+      player.x-= 1;   
+    }
+    if(keyCode == 's' || keyCode == 'S' || keyCode == DOWN)
+    {
+      player.y+=1;   
+    }
+    if(keyCode == 'd' || keyCode == 'D' || keyCode == RIGHT)
+    {
+      player.x+=1;   
+    }
+  
+  
+}
+
+void keyReleased()
+{  
+  keyCode = -1;
+}
