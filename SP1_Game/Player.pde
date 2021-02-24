@@ -20,10 +20,10 @@ class Player
     this.x = x;
     this.y = y;
     health = 100;
-    f = loadImage("MainCharacter.gif");
-    f2 = loadImage("MainCharacter2.gif");
-    f3 = loadImage("MainCharacterrun.gif");
-    f4 = loadImage("MainCharacterrun2.gif");
+    f = loadImage("Sprites/MainCharacter.gif");
+    f2 = loadImage("Sprites/MainCharacter2.gif");
+    f3 = loadImage("Sprites/MainCharacterrun.gif");
+    f4 = loadImage("Sprites/MainCharacterrun2.gif");
   }
 
   void display()

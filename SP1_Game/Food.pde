@@ -13,7 +13,7 @@ class Food
     this.x = x;
     this.y = y;
     this.player = player;
-    f = loadImage("cookie.png");
+    f = loadImage("Sprites/cookie.png");
   }  
 
   void display()

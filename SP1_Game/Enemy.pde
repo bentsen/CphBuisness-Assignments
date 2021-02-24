@@ -13,7 +13,7 @@ class Enemy
     this.y = y;
     this.player = player;
     frameRate(20);
-    f = loadImage("enemy.png");
+    f = loadImage("Sprites/enemy.png");
   }
   
   void display()

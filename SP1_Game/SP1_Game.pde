@@ -125,9 +125,9 @@ void UI()
   //HEALTH
   PImage f;
   PFont mono;
-  mono = createFont("ARCADE_N.TTF",32);
+  mono = createFont("Font/ARCADE_N.TTF",32);
   textFont(mono);
-  f = loadImage("border.png");
+  f = loadImage("Sprites/border.png");
   image(f,250,0,size+100,size+10);
   textSize(15);
   fill(255);
@@ -154,7 +154,7 @@ void UI()
 
   //SCORE
   PImage f2;
-   f2 = loadImage("border.png");
+   f2 = loadImage("Sprites/border.png");
   image(f2,570,0,size+100,size+10);
   textSize(15);
   fill(255);
@@ -176,8 +176,8 @@ void isGameOver()
     PImage f2;
     fill(255, 0, 0, 30);
     rect(0, 0, 1001, 1001);
-    f = loadImage("gameover.png");
-    f2 = loadImage("enter.png");
+    f = loadImage("Sprites/gameover.png");
+    f2 = loadImage("Sprites/enter.png");
     image(f,265,250,size+400,size+200);
     image(f2,370,500,size+200,size+50);
    
