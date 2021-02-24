@@ -18,8 +18,9 @@ class Food
 
   void display()
   {
-    image(f,x,y,size,size);
+    image(f,x,y,size+15,size+15);
   }
+  
   
   void moveAwayFromPlayer()
   {
@@ -31,28 +32,28 @@ class Food
       {
         if (x > 0);
         {
-          x--;
+          food.x -= 10;
         }
       }
       if (i == 1)
       {
         if (y>0)
         {
-          y--;
+          food.y-= 10;
         }
       }
       if (i == 2)
       {
         if (x < 1001)
         {
-          x++;
+          food.x+= 10;
         }
       }
       if (i== 3)
       {
         if (y < 1001)
         {
-          y++;
+          food.y+= 10;
         }
       }
     }

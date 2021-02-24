@@ -5,6 +5,7 @@ class Enemy
   int y; 
   int type = 1; 
   Player player;
+  PImage f;
 
   Enemy(int x, int y, Player player)
   {
@@ -12,6 +13,12 @@ class Enemy
     this.y = y;
     this.player = player;
     frameRate(20);
+    f = loadImage("enemy.png");
+  }
+  
+  void display()
+  {
+    image(f,x,y,size+30,size+30);
   }
 
   void MoveTowardsPlayer()
@@ -42,14 +49,14 @@ class Enemy
         }
         if (i == 2)
         {
-          if (x < 24)
+          if (x < 1001)
           {
             x++;
           }
         }
         if (i== 3)
         {
-          if (y < 24)
+          if (y < 1001)
           {
             y++;
           }
@@ -66,15 +73,15 @@ class Enemy
         //y value to move one sqaure closer to player!
         if (player.y > y)
         {
-          if (y < 24)
+          if (y < 1001)
           {
-            y++;
+            y+=20;
           }
         } else
         {
           if ( y > 0)
           {
-            y--;
+            y-=20;
           }
         }
       } else
@@ -82,15 +89,15 @@ class Enemy
         // x value to move one sqaure closer to player! ét 
         if (player.x > x)
         {
-          if (x < 24)
+          if (x < 1001)
           {
-            x++;
+            x+=20;
           }
         } else
         {
           if (y > 0)
           {
-            x--;
+            x-=20;
           }
         }
       }

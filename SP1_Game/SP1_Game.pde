@@ -1,7 +1,4 @@
-boolean up = true;
-boolean down = true;
-boolean left = true;
-boolean right = true;
+
 int size = 40;
 int[][] grid = new int[25][25];
 
@@ -19,14 +16,11 @@ void setup()
 {
   size(1001, 1001);
   player = new Player(100, 100);
-  //enemies.add(new Enemy(20, 19, player));
-  food = new Food(100, 100, player);  
+  
+  food = new Food(int(random(1000)), int(random(1000)), player);  
   addedEnemies = false;
   enemies.clear();
-  up = true;
-  down = true;
-  left = true;
-  right = true;
+
 }
 
 void draw()
@@ -43,8 +37,8 @@ void draw()
   {
     for (int i = 0; i < 2; i++)
     {
-      //bonusEnemy[i] = new Enemy(int(random(0,25)),int(random(0,25)),player);
-      enemies.add(new Enemy(int(random(0, 25)), int(random(0, 25)), player));
+      
+      enemies.add(new Enemy(int(random(1000)),int(random(1000)),player));
     }
     addedEnemies = true;
   }
@@ -73,7 +67,7 @@ void drawBoard()
     for (int y = 0; y < grid[0].length; y++)
     {
       fill(0);
-      stroke(255, 150);
+      stroke(255, 50);
       rect(x * size, y * size, size, size);
     }
   }
@@ -86,15 +80,17 @@ void updateEntities()
   {
     for (Enemy enemy : enemies)
     {
-      grid[enemy.x][enemy.y] = enemy.type;
+      enemy.display();
       enemy.MoveTowardsPlayer();
     }
 
     food.display();
     food.moveAwayFromPlayer();
     
-    player.display();
     player.moves();
+    player.keyReleased();
+    player.display();
+    
   }
   catch(ArrayIndexOutOfBoundsException e)
   {
@@ -103,9 +99,12 @@ void updateEntities()
 
 void resolveCollisions()
 {
+ 
   for (Enemy enemy : enemies) 
   {
-    if (player.x == enemy.x && player.y == enemy.y)
+     int enemyxplayer = Math.abs(player.x - enemy.x);
+     int enemyyplayer = Math.abs(player.y - enemy.y);
+    if (enemyxplayer <= 30 && enemyyplayer <= 30)
     {
       player.takeDamage();
     }
@@ -124,43 +123,48 @@ void resolveCollisions()
 void UI()
 {
   //HEALTH
-  fill(#795656, 230);
-  rect(290, 0, 130, 40);
-  textSize(20);
+  PImage f;
+  PFont mono;
+  mono = createFont("ARCADE_N.TTF",32);
+  textFont(mono);
+  f = loadImage("border.png");
+  image(f,250,0,size+100,size+10);
+  textSize(15);
   fill(255);
-  text("HP:", 310, 30);
+  text("HP:", 265, 30);
   if (player.health > 60)
   {
     fill(0, 255, 0); 
-    text(player.health, 350, 30);
+    text(player.health, 305, 30);
   }
   if (player.health > 30 && player.health < 60)
   {
     fill(255, 255, 0); 
-    text(player.health, 350, 30);
+    text(player.health, 305, 30);
   }
   if (player.health > 0 && player.health < 30)
   {
     fill(255, 0, 0); 
-    text(player.health, 350, 30);
+    text(player.health, 305, 30);
   } else if (player.health <= 0)
   {
     fill(255, 0, 0);
-    text(0, 350, 30);
+    text(0, 305, 30);
   }
 
   //SCORE
-  fill(#795656, 230);
-  rect(540, 0, 130, 40);
-  textSize(20);
+  PImage f2;
+   f2 = loadImage("border.png");
+  image(f2,570,0,size+100,size+10);
+  textSize(15);
   fill(255);
-  text("Score:", 550, 30);
-  text(player.score, 610, 31);
+  text("Score:", 580, 30);
+  text(player.score, 665, 31);
 
   //Game Name 
-  fill(#AA7C7C);
+  fill(255);
   textSize(30);
-  text("CATCH", 430, 30);
+  text("CATCH", 408, 30);
 }
 
 
@@ -168,17 +172,17 @@ void isGameOver()
 {
   if (player.health < 0)
   {
-    fill(255, 0, 0);
-    textSize(50);
-    text("GAME OVER", 330, 500);
-    textSize(20);
-    text("PRESS ENTER!", 420, 530);
+    PImage f;
+    PImage f2;
     fill(255, 0, 0, 30);
     rect(0, 0, 1001, 1001);
-    up = false;
-    down = false;
-    right = false;
-    left = false;
+    f = loadImage("gameover.png");
+    f2 = loadImage("enter.png");
+    image(f,265,250,size+400,size+200);
+    image(f2,370,500,size+200,size+50);
+   
+    
+    player.gameover = true;
     if (player.health < 0 && keyCode == ENTER)
     {
       setup();
