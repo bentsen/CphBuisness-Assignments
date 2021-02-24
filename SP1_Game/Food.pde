@@ -5,7 +5,7 @@ class Food
   int y;
   int type = 2;
   Player player;
-
+  PImage f;
 
 
   Food(int x, int y, Player player)
@@ -13,8 +13,14 @@ class Food
     this.x = x;
     this.y = y;
     this.player = player;
+    f = loadImage("cookie.png");
   }  
 
+  void display()
+  {
+    image(f,x,y,size,size);
+  }
+  
   void moveAwayFromPlayer()
   {
     int i = (int)random(3);
@@ -37,14 +43,14 @@ class Food
       }
       if (i == 2)
       {
-        if (x < 24)
+        if (x < 1001)
         {
           x++;
         }
       }
       if (i== 3)
       {
-        if (y < 24)
+        if (y < 1001)
         {
           y++;
         }

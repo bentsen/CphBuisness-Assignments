@@ -18,9 +18,9 @@ boolean addedEnemies = false;
 void setup()
 {
   size(1001, 1001);
-  player = new Player(3, 4);
+  player = new Player(100, 100);
   //enemies.add(new Enemy(20, 19, player));
-  food = new Food(10, 6, player);  
+  food = new Food(100, 100, player);  
   addedEnemies = false;
   enemies.clear();
   up = true;
@@ -32,8 +32,9 @@ void setup()
 void draw()
 {
   clearBoard();
+  
+  drawBoard();
   updateEntities();
-  drawBoard();   
   isGameOver();
   resolveCollisions();
   UI();
@@ -71,7 +72,7 @@ void drawBoard()
   {
     for (int y = 0; y < grid[0].length; y++)
     {
-      fill(getColorFromType(grid[x][y]));
+      fill(0);
       stroke(255, 150);
       rect(x * size, y * size, size, size);
     }
@@ -80,6 +81,7 @@ void drawBoard()
 
 void updateEntities()
 {  
+  
   try
   {
     for (Enemy enemy : enemies)
@@ -88,9 +90,11 @@ void updateEntities()
       enemy.MoveTowardsPlayer();
     }
 
-    grid[food.x][food.y] = food.type;
+    food.display();
     food.moveAwayFromPlayer();
-    grid[player.x][player.y] = player.type;
+    
+    player.display();
+    player.moves();
   }
   catch(ArrayIndexOutOfBoundsException e)
   {
@@ -107,12 +111,13 @@ void resolveCollisions()
     }
   }
 
-
-  if (player.x == food.x && player.y == food.y)
+  int foodxplayer = Math.abs(player.x - food.x);
+  int foodyplayer = Math.abs(player.y - food.y);
+  if (foodyplayer <= 30 && foodxplayer <= 30)
   {
     player.increaseScore();
     food.moveAwayFromPlayer();
-    food = new Food(int(random(0, 25)), int(random(0, 25)), player);
+    food = new Food(int(random(0, 1000)), int(random(0, 1000)), player);
   }
 }
 
@@ -177,80 +182,6 @@ void isGameOver()
     if (player.health < 0 && keyCode == ENTER)
     {
       setup();
-    }
-  }
-}
-
-color getColorFromType(int type) 
-{
-  color c = color(255);
-
-  switch(type)
-  {
-  case 0: 
-    c = color(0);
-    break;
-  case 1: 
-    c = color(255, 0, 0);
-    break;
-  case 2: 
-    c = color(0, 255, 0);
-    break;
-  case 3: 
-    c = color(0, 0, 255);
-    break;
-  case 4: 
-    c = color (0, 255, 255);
-    break;
-  }    
-
-  return c;
-}
-
-void printIntArray(int[][] arr) 
-{
-  System.out.println("");
-  System.out.println("");
-  System.out.println("");
-  for (int x = 0; x < arr.length; x++)
-  {
-    for (int y = 0; y < arr[0].length; y++) 
-    {
-
-      System.out.print(arr[x][y] + ", ");
-    }
-    println();
-  }
-}
-
-void keyPressed()
-{
-  if (keyCode == UP)
-  {
-    if (player.y > 0 && up == true)
-    {
-      player.y -= 1;
-    }
-  }
-  if (keyCode == LEFT)
-  {
-    if (player.x > 0 && left == true)
-    {
-      player.x -= 1;
-    }
-  }
-  if (keyCode == DOWN)
-  {
-    if (player.y < 24 && down == true)
-    {
-      player.y += 1;
-    }
-  }
-  if (keyCode == RIGHT)
-  {
-    if (player.x < 24 && right == true)
-    {
-      player.x += 1;
     }
   }
 }
